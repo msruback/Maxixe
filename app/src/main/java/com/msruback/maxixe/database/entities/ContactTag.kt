@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 
 @Entity("Contact_Tags",
+    primaryKeys = ["Contact","Tag"],
     foreignKeys = [
         ForeignKey(
             entity = Contact::class,
@@ -20,7 +21,7 @@ import androidx.room.ForeignKey
         )
     ]
 )
-class ContactTag (
-    @ColumnInfo("Contact", index = true)val contact: Int,
-    @ColumnInfo("Tag", index = true)val tag: Int
+data class ContactTag (
+    @ColumnInfo("Contact", index = true)val contact: Long,
+    @ColumnInfo("Tag", index = true)val tag: Long
 )

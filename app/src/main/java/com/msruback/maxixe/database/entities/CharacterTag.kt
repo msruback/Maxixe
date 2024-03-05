@@ -3,6 +3,7 @@ package com.msruback.maxixe.database.entities
 import androidx.room.*
 
 @Entity("Character_Tags",
+        primaryKeys = ["Character","Tag"],
         foreignKeys = [
                 ForeignKey(
                         entity = Character::class,
@@ -19,6 +20,6 @@ import androidx.room.*
         ]
 )
 data class CharacterTag (
-        @ColumnInfo("Character", index = true)val character: Int,
-        @ColumnInfo("Tag", index = true)val tag: Int
+        @ColumnInfo("Character", index = true)val character: Long,
+        @ColumnInfo("Tag", index = true)val tag: Long
 )

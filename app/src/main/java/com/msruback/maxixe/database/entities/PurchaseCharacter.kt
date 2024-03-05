@@ -2,8 +2,8 @@ package com.msruback.maxixe.database.entities
 
 import androidx.room.*
 
-@Entity("Purchase_Tags",
-    primaryKeys = ["Purchase","Tag"],
+@Entity("Purchase_Characters",
+    primaryKeys = ["Purchase","Character"],
     foreignKeys = [
         ForeignKey(
             entity = Purchase::class,
@@ -12,14 +12,14 @@ import androidx.room.*
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
-            entity = Tag::class,
+            entity = Character::class,
             parentColumns = ["Id"],
-            childColumns = ["Tag"],
+            childColumns = ["Character"],
             onDelete = ForeignKey.CASCADE
         )
     ]
 )
-class PurchaseTag (
+data class PurchaseCharacter (
     @ColumnInfo("Purchase", index = true)val purchase: Long,
-    @ColumnInfo("Tag", index = true)val tag: Long
+    @ColumnInfo("Character", index = true)val character: Long
 )

@@ -4,7 +4,7 @@ import androidx.room.*
 
 @Entity("Events")
 data class Event(
-    @PrimaryKey(true) @ColumnInfo("Id") val id: Int,
+    @PrimaryKey(true) @ColumnInfo("Id") val id: Long,
     @ColumnInfo("Name") var name: String,
     @ColumnInfo("Location") var location: String,
     @ColumnInfo("Start") var start: Long,

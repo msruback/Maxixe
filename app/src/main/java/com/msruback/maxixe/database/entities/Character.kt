@@ -13,11 +13,11 @@ import androidx.room.*
     ]
 )
 data class Character(
-    @PrimaryKey(true) @ColumnInfo("Id") val id:Int,
+    @PrimaryKey(true) @ColumnInfo("Id") val id: Long,
     @ColumnInfo("Name") var name: String,
     @ColumnInfo("Pronouns") var pronouns: String,
     @ColumnInfo("Desc") var desc: String,
     @ColumnInfo("Link") var link: String,
-    @ColumnInfo("Owner", index = true) var owner: Int,
+    @ColumnInfo("Owner", index = true) var owner: Long? = null,
     @ColumnInfo("IsUserOwned") var isUserOwned: Boolean = false
 )
