@@ -1,6 +1,28 @@
 <resources>
     <string name="app_name">Maxixe</string>
     <string name="title_activity_main">MainActivity</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="character_list">Characters</string>
+    <string name="add_character">Add Character</string>
+    <string name="edit_character">Edit Character</string>
+    <string name="filter_characters">Filter Characters</string>
+    <string name="save_character">Save Character</string>
+
+    <string name="contact_list">Contacts</string>
+    <string name="add_contact">Add Contact</string>
+    <string name="edit_contact">Edit Contact</string>
+    <string name="filter_contacts">Filter Contacts</string>
+    <string name="save_contact">Save Contact</string>
+
+    <string name="event_list">Events</string>
+    <string name="add_event">Add Event</string>
+    <string name="edit_event">Edit Event</string>
+    <string name="filter_events">Filter Events</string>
+    <string name="save_event">Save Event</string>
+
+    <string name="purchase_list">Purchases</string>
+    <string name="add_purchase">Add Purchase</string>
+    <string name="edit_purchase">Edit Purchase</string>
+    <string name="filter_purchases">Filter Purchases</string>
+    <string name="save_purchase">Save Purchase</string>
 </resources>

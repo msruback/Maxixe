@@ -16,9 +16,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.msruback.maxixe.ui.composables.MaxixeAppBar
+import com.msruback.maxixe.ui.composables.appbar.MaxixeAppBar
 import com.msruback.maxixe.ui.composables.MaxixeBottomDrawer
-import com.msruback.maxixe.ui.composables.screens.purchases.AddEditPurchase
+import com.msruback.maxixe.ui.composables.screens.characters.CharactersListScreen
+import com.msruback.maxixe.ui.composables.screens.purchases.AddEditPurchaseScreen
 import com.msruback.maxixe.ui.composables.screens.purchases.PurchaseScreen
 import com.msruback.maxixe.ui.composables.screens.purchases.PurchasesListScreen
 import com.msruback.maxixe.ui.ui.theme.MaxixeTheme
@@ -39,13 +40,13 @@ class MainActivity : ComponentActivity() {
                         arguments = listOf(navArgument("purchaseId") { type = NavType.LongType }))
                     { PurchaseScreen() }
                     composable("purchase/add"){
-                        AddEditPurchase()
+                        AddEditPurchaseScreen()
                     }
                     composable("purchase/edit/{purchaseId}"){
-                        AddEditPurchase()
+                        AddEditPurchaseScreen()
                     }
                     composable("characters"){
-                        PurchasesListScreen{purchaseId -> navController.navigate("purchase/$purchaseId") }
+                        CharactersListScreen{characterId -> navController.navigate("character/$characterId") }
                     }
                 }
             }

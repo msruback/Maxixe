@@ -4,6 +4,8 @@ import androidx.room.*
 import com.msruback.maxixe.database.entities.Purchase
 import com.msruback.maxixe.database.entities.PurchaseCharacter
 import com.msruback.maxixe.database.entities.PurchaseTag
+import com.msruback.maxixe.database.queries.PurchaseWithEverything
+import com.msruback.maxixe.database.queries.PurchaseWithSeller
 
 @Dao
 interface PurchaseDao {
@@ -20,7 +22,7 @@ interface PurchaseDao {
     fun addTags(vararg purchaseTags: PurchaseTag)
 
     @Query("SELECT * FROM Purchases WHERE Id = :id")
-    fun select(id: Long): Purchase
+    fun select(id: Long): PurchaseWithEverything
 
     @RewriteQueriesToDropUnusedColumns
     @Query("SELECT * FROM Purchases " +
@@ -39,5 +41,8 @@ interface PurchaseDao {
             "INNER JOIN Purchase_Tags ON Purchase = Id " +
             "WHERE Tag = :tag")
     fun selectAllByTag(tag: Long): List<Purchase>
+
+    @Query("SELECT * FROM Purchases")
+    fun selectAll(): List<PurchaseWithSeller>
 
 }

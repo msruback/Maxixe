@@ -17,17 +17,18 @@ private val DarkColorScheme = darkColorScheme(
     tertiary = Pink80,
     background = darkGreyBackground,
     onPrimary = highlightBlue,
-    onSecondary = darkGreyText
+    onSecondary = darkGreyText,
+    onBackground = backgroundBlue
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = deepBlue,
     secondary = highlightBlue,
     tertiary = Pink40,
-    background = darkGreyBackground,
+    background = backgroundBlue,
     onPrimary = highlightBlue,
-    onSecondary = darkGreyText
-
+    onSecondary = darkGreyText,
+    onBackground = darkGreyBackground
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
     surface = Color(0xFFFFFBFE),
