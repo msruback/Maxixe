@@ -1,5 +1,8 @@
 package com.msruback.maxixe.ui.composables.appbar
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.shape.CircleShape
@@ -10,16 +13,14 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import com.msruback.maxixe.ui.composables.screens.Screen
 import com.msruback.maxixe.ui.composables.screens.ScreenInfo
 import com.msruback.maxixe.ui.composables.screens.purchases.AddEditPurchaseScreenInfo
-import com.msruback.maxixe.ui.composables.screens.purchases.PurchaseListScreenInfo
+import com.msruback.maxixe.ui.composables.screens.purchases.PurchasesListScreenInfo
 import com.msruback.maxixe.ui.composables.screens.purchases.PurchaseScreenInfo
 import com.msruback.maxixe.ui.ui.theme.MaxixeTheme
 
@@ -35,22 +36,30 @@ fun MaxixeAppBar(
     val screenBarInfo = getScreenBarInfo(currentDest, navController = navController, toggleDrawer)
     if (screenBarInfo != null) {
         MaxixeScaffold(
-            content,
             screenBarInfo.hasFab,
             screenBarInfo.fabPosition,
-            screenBarInfo.fab,
-            screenBarInfo.buttons
+            {
+                val fabVisible = remember { MutableTransitionState(false).apply{targetState = true}}
+                AnimatedVisibility(
+                    visibleState = fabVisible,
+                    enter = scaleIn()
+                ) {
+                    screenBarInfo.fab?.let { it() }
+                }
+            },
+            screenBarInfo.buttons,
+            content
         )
     }
 }
 
 @Composable
-private fun MaxixeScaffold(
-    content: @Composable (PaddingValues) -> Unit,
+fun MaxixeScaffold(
     hasFab: Boolean,
     fabPosition: FabPosition?,
     fab: @Composable (() -> Unit)?,
-    buttons: @Composable RowScope.() -> Unit
+    buttons: @Composable RowScope.() -> Unit,
+    content: @Composable (PaddingValues) -> Unit
 ) {
     if (hasFab) {
         Scaffold(
@@ -86,14 +95,30 @@ private fun MaxixeScaffold(
 
 @Composable
 @Preview
-private fun Preview() {
+private fun DetailPreview() {
     MaxixeTheme {
-        val navController = rememberNavController()
-        MaxixeAppBar(navController, {}) {
-            NavHost(navController = navController, startDestination = "purchases") {
-                composable("purchases") {}
-            }
-        }
+        val screenBarInfo = PurchaseScreenInfo.getInfo({}){}
+        MaxixeScaffold(
+            screenBarInfo.hasFab,
+            screenBarInfo.fabPosition,
+            {
+                EditActionButton(contentDesc = "") {}
+            },
+            screenBarInfo.buttons){}
+    }
+}
+@Composable
+@Preview
+private fun ListPreview() {
+    MaxixeTheme {
+        val screenBarInfo = PurchasesListScreenInfo.getInfo({}){}
+        MaxixeScaffold(
+            screenBarInfo.hasFab,
+            screenBarInfo.fabPosition,
+            {
+                AddActionButton(contentDesc = "") {}
+            },
+            screenBarInfo.buttons){}
     }
 }
 
@@ -105,7 +130,7 @@ private fun getScreenBarInfo(
 ): ScreenInfo? {
     val navigate: (String) -> Unit = { route -> navController.navigate(route) }
     val screens: List<Screen> = listOf(
-        PurchaseListScreenInfo,
+        PurchasesListScreenInfo,
         PurchaseScreenInfo,
         AddEditPurchaseScreenInfo
     )

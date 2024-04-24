@@ -24,6 +24,6 @@ data class Purchase(
     @ColumnInfo("Tip") var tip: Double,
     @ColumnInfo("Total") var total: Double,
     @ColumnInfo("Date") var date: Long,
-    @ColumnInfo("Seller", index = true) var seller: Long,
+    @ColumnInfo("Seller", index = true) var seller: Long? = null,
     @ColumnInfo("Event", index = true) var event: Long? = null
 )

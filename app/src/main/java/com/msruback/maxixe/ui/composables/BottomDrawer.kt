@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -55,18 +56,18 @@ fun MaxixeBottomDrawer(
                     .fillMaxWidth()
                     .testTag("bottom-drawer")
             ) {
-                NavItem(route = currentDestination, dest = "purchase", name = "Purchases", icon = R.drawable.purchases) {
+                NavItem(route = currentDestination, dest = "purchase", name = stringResource(R.string.purchase_list), icon = R.drawable.purchases) {
                     navController.navigate("purchases")
                     toggleDrawer()
                 }
-                NavItem(route = currentDestination, dest = "character", name = "Characters", icon = R.drawable.characters) {
+                NavItem(route = currentDestination, dest = "character", name = stringResource(R.string.character_list), icon = R.drawable.characters) {
                     navController.navigate("characters")
                     toggleDrawer()
                 }
-                NavItem(route = currentDestination, dest = "contact", name = "Contacts", icon = R.drawable.contacts) {
+                NavItem(route = currentDestination, dest = "contact", name = stringResource(R.string.contact_list), icon = R.drawable.contacts) {
                     toggleDrawer()
                 }
-                NavItem(route = currentDestination, dest = "event", name = "Events", icon = R.drawable.events) {
+                NavItem(route = currentDestination, dest = "event", name = stringResource(R.string.event_list), icon = R.drawable.events) {
                     toggleDrawer()
                 }
             }

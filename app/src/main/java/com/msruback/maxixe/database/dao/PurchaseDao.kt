@@ -1,11 +1,12 @@
 package com.msruback.maxixe.database.dao
 
+import androidx.paging.PagingSource
 import androidx.room.*
 import com.msruback.maxixe.database.entities.Purchase
 import com.msruback.maxixe.database.entities.PurchaseCharacter
 import com.msruback.maxixe.database.entities.PurchaseTag
-import com.msruback.maxixe.database.queries.PurchaseWithEverything
-import com.msruback.maxixe.database.queries.PurchaseWithSeller
+import com.msruback.maxixe.database.queries.EverythingPurchase
+import com.msruback.maxixe.database.queries.PurchaseSellerEvent
 
 @Dao
 interface PurchaseDao {
@@ -21,8 +22,9 @@ interface PurchaseDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun addTags(vararg purchaseTags: PurchaseTag)
 
+    @Transaction
     @Query("SELECT * FROM Purchases WHERE Id = :id")
-    fun select(id: Long): PurchaseWithEverything
+    fun select(id: Long): EverythingPurchase
 
     @RewriteQueriesToDropUnusedColumns
     @Query("SELECT * FROM Purchases " +
@@ -42,7 +44,12 @@ interface PurchaseDao {
             "WHERE Tag = :tag")
     fun selectAllByTag(tag: Long): List<Purchase>
 
+    @Transaction
     @Query("SELECT * FROM Purchases")
-    fun selectAll(): List<PurchaseWithSeller>
+    fun selectAll(): List<PurchaseSellerEvent>
+
+    @Transaction
+    @Query("SELECT * FROM Purchases")
+    fun pagingSource(): PagingSource<Int, PurchaseSellerEvent>
 
 }

@@ -1,187 +1,158 @@
 package com.msruback.maxixe.database
 
-import com.msruback.maxixe.database.entities.Character
-import com.msruback.maxixe.database.entities.Contact
-import com.msruback.maxixe.database.entities.Event
-import com.msruback.maxixe.database.entities.Purchase
+
 import com.msruback.maxixe.database.entities.PurchaseCharacter
 import com.msruback.maxixe.database.entities.PurchaseTag
-import com.msruback.maxixe.database.entities.Socials
-import com.msruback.maxixe.database.entities.Tag
+import com.msruback.maxixe.database.exampledata.basicCharacter
+import com.msruback.maxixe.database.exampledata.basicEvent
+import com.msruback.maxixe.database.exampledata.basicPurchase
+import com.msruback.maxixe.database.exampledata.basicTag
+import com.msruback.maxixe.database.exampledata.purchaseWithSeller
 import org.junit.Assert
 import org.junit.Test
 
 class PurchaseTests : DatabaseTest() {
-    private var testCharacter = Character(
-        0,
-        "Maxixe",
-        "They/Them",
-        "Your Fandom Assistant",
-        "www.example.com"
-    )
-    private val testContact = Contact(
-        0,
-        "Test",
-        "They/Them",
-        "A Test User",
-        Socials("example.com", "twitter.com", "bsky.app", "tumblr.com", "instagram.com")
-    )
-    private var testPurchase = Purchase(
-        0,
-        "Test Doodle",
-        3.50,
-        3.00,
-        6.50,
-        795416400000,
-        0
-    )
-    private val testEvent = Event(0, "TestCon", "Test", 795416400000, 795416400000)
-    private val testTag = Tag(0,"Test",1)
 
     @Test
-    fun test_insert() {
-        testPurchase.seller = maxixeDatabase.contactDao().insert(testContact)
-        val id = maxixeDatabase.purchaseDao().insert(testPurchase)
+    fun test_insert(){
+        val id = maxixeDatabase.purchaseDao().insert(basicPurchase)
 
         val storedPurchase = maxixeDatabase.purchaseDao().select(id)
 
         Assert.assertEquals(id, storedPurchase.purchase.id)
-        Assert.assertEquals(testPurchase.desc, storedPurchase.purchase.desc)
-        Assert.assertEquals(testPurchase.cost, storedPurchase.purchase.cost, 0.0)
-        Assert.assertEquals(testPurchase.tip, storedPurchase.purchase.tip, 0.0)
-        Assert.assertEquals(testPurchase.total, storedPurchase.purchase.total, 0.0)
-        Assert.assertEquals(testPurchase.date, storedPurchase.purchase.date)
-        Assert.assertEquals(testPurchase.seller, storedPurchase.purchase.seller)
-        Assert.assertEquals(testPurchase.event, storedPurchase.purchase.event)
+        Assert.assertEquals(basicPurchase.desc, storedPurchase.purchase.desc)
+        Assert.assertEquals(basicPurchase.cost, storedPurchase.purchase.cost, 0.0)
+        Assert.assertEquals(basicPurchase.tip, storedPurchase.purchase.tip, 0.0)
+        Assert.assertEquals(basicPurchase.total, storedPurchase.purchase.total, 0.0)
+        Assert.assertEquals(basicPurchase.date, storedPurchase.purchase.date)
+        Assert.assertEquals(basicPurchase.seller, storedPurchase.purchase.seller)
+        Assert.assertEquals(basicPurchase.event, storedPurchase.purchase.event)
+    }
+    @Test
+    fun test_insert_seller() {
+        purchaseWithSeller.purchase.seller = maxixeDatabase.contactDao().insert(purchaseWithSeller.seller!!)
+        val id = maxixeDatabase.purchaseDao().insert(purchaseWithSeller.purchase)
 
-        Assert.assertEquals(testContact.name, storedPurchase.seller.name)
-        Assert.assertEquals(testContact.desc, storedPurchase.seller.desc)
-        Assert.assertEquals(testContact.pronouns, storedPurchase.seller.pronouns)
-        Assert.assertEquals(testContact.socials, storedPurchase.seller.socials)
-        Assert.assertEquals(testContact.isUser, storedPurchase.seller.isUser)
+        val storedPurchase = maxixeDatabase.purchaseDao().select(id)
 
+        Assert.assertEquals(id, storedPurchase.purchase.id)
+        Assert.assertEquals(purchaseWithSeller.purchase.desc, storedPurchase.purchase.desc)
+        Assert.assertEquals(purchaseWithSeller.purchase.cost, storedPurchase.purchase.cost, 0.0)
+        Assert.assertEquals(purchaseWithSeller.purchase.tip, storedPurchase.purchase.tip, 0.0)
+        Assert.assertEquals(purchaseWithSeller.purchase.total, storedPurchase.purchase.total, 0.0)
+        Assert.assertEquals(purchaseWithSeller.purchase.date, storedPurchase.purchase.date)
+        Assert.assertEquals(purchaseWithSeller.purchase.seller, storedPurchase.purchase.seller)
+        Assert.assertEquals(purchaseWithSeller.purchase.event, storedPurchase.purchase.event)
+
+        Assert.assertEquals(purchaseWithSeller.seller!!.name, storedPurchase.seller!!.name)
+        Assert.assertEquals(purchaseWithSeller.seller!!.desc, storedPurchase.seller!!.desc)
+        Assert.assertEquals(purchaseWithSeller.seller!!.pronouns, storedPurchase.seller!!.pronouns)
+        Assert.assertEquals(purchaseWithSeller.seller!!.socials, storedPurchase.seller!!.socials)
+        Assert.assertEquals(purchaseWithSeller.seller!!.isUser, storedPurchase.seller!!.isUser)
+        purchaseWithSeller.purchase.seller = 0
     }
 
     @Test
     fun test_insert_character() {
-        testPurchase.seller = maxixeDatabase.contactDao().insert(testContact)
-        val purchId = maxixeDatabase.purchaseDao().insert(testPurchase)
-        val charId = maxixeDatabase.characterDao().insert(testCharacter)
+        val purchId = maxixeDatabase.purchaseDao().insert(basicPurchase)
+        val charId = maxixeDatabase.characterDao().insert(basicCharacter)
 
         maxixeDatabase.purchaseDao().addCharacters(PurchaseCharacter(purchId, charId))
 
         val storedPurchase = maxixeDatabase.purchaseDao().select(purchId)
 
         Assert.assertEquals(purchId, storedPurchase.purchase.id)
-        Assert.assertEquals(testPurchase.desc, storedPurchase.purchase.desc)
-        Assert.assertEquals(testPurchase.cost, storedPurchase.purchase.cost, 0.0)
-        Assert.assertEquals(testPurchase.tip, storedPurchase.purchase.tip, 0.0)
-        Assert.assertEquals(testPurchase.total, storedPurchase.purchase.total, 0.0)
-        Assert.assertEquals(testPurchase.date, storedPurchase.purchase.date)
-        Assert.assertEquals(testPurchase.seller, storedPurchase.purchase.seller)
-        Assert.assertEquals(testPurchase.event, storedPurchase.purchase.event)
-
-        Assert.assertEquals(testContact.name, storedPurchase.seller.name)
-        Assert.assertEquals(testContact.desc, storedPurchase.seller.desc)
-        Assert.assertEquals(testContact.pronouns, storedPurchase.seller.pronouns)
-        Assert.assertEquals(testContact.socials, storedPurchase.seller.socials)
-        Assert.assertEquals(testContact.isUser, storedPurchase.seller.isUser)
+        Assert.assertEquals(basicPurchase.desc, storedPurchase.purchase.desc)
+        Assert.assertEquals(basicPurchase.cost, storedPurchase.purchase.cost, 0.0)
+        Assert.assertEquals(basicPurchase.tip, storedPurchase.purchase.tip, 0.0)
+        Assert.assertEquals(basicPurchase.total, storedPurchase.purchase.total, 0.0)
+        Assert.assertEquals(basicPurchase.date, storedPurchase.purchase.date)
+        Assert.assertEquals(basicPurchase.seller, storedPurchase.purchase.seller)
+        Assert.assertEquals(basicPurchase.event, storedPurchase.purchase.event)
 
         Assert.assertEquals(1, storedPurchase.characters.size)
-        Assert.assertEquals(testCharacter.name, storedPurchase.characters[0].name)
-        Assert.assertEquals(testCharacter.pronouns, storedPurchase.characters[0].pronouns)
-        Assert.assertEquals(testCharacter.desc, storedPurchase.characters[0].desc)
-        Assert.assertEquals(testCharacter.link, storedPurchase.characters[0].link)
-        Assert.assertEquals(testCharacter.isUserOwned, storedPurchase.characters[0].isUserOwned)
-        Assert.assertEquals(testCharacter.owner, storedPurchase.characters[0].owner)
+        Assert.assertEquals(basicCharacter.name, storedPurchase.characters[0].name)
+        Assert.assertEquals(basicCharacter.pronouns, storedPurchase.characters[0].pronouns)
+        Assert.assertEquals(basicCharacter.desc, storedPurchase.characters[0].desc)
+        Assert.assertEquals(basicCharacter.link, storedPurchase.characters[0].link)
+        Assert.assertEquals(basicCharacter.isUserOwned, storedPurchase.characters[0].isUserOwned)
+        Assert.assertEquals(basicCharacter.owner, storedPurchase.characters[0].owner)
 
     }
 
     @Test
     fun test_insert_event() {
-        testPurchase.seller = maxixeDatabase.contactDao().insert(testContact)
-        testPurchase.event = maxixeDatabase.eventDao().insert(testEvent)
-        val id = maxixeDatabase.purchaseDao().insert(testPurchase)
+        basicPurchase.event = maxixeDatabase.eventDao().insert(basicEvent)
+        val id = maxixeDatabase.purchaseDao().insert(basicPurchase)
 
         val storedPurchase = maxixeDatabase.purchaseDao().select(id)
 
         Assert.assertEquals(id, storedPurchase.purchase.id)
-        Assert.assertEquals(testPurchase.desc, storedPurchase.purchase.desc)
-        Assert.assertEquals(testPurchase.cost, storedPurchase.purchase.cost, 0.0)
-        Assert.assertEquals(testPurchase.tip, storedPurchase.purchase.tip, 0.0)
-        Assert.assertEquals(testPurchase.total, storedPurchase.purchase.total, 0.0)
-        Assert.assertEquals(testPurchase.date, storedPurchase.purchase.date)
-        Assert.assertEquals(testPurchase.seller, storedPurchase.purchase.seller)
-        Assert.assertEquals(testPurchase.event, storedPurchase.purchase.event)
-
-        Assert.assertEquals(testContact.name, storedPurchase.seller.name)
-        Assert.assertEquals(testContact.desc, storedPurchase.seller.desc)
-        Assert.assertEquals(testContact.pronouns, storedPurchase.seller.pronouns)
-        Assert.assertEquals(testContact.socials, storedPurchase.seller.socials)
-        Assert.assertEquals(testContact.isUser, storedPurchase.seller.isUser)
+        Assert.assertEquals(basicPurchase.desc, storedPurchase.purchase.desc)
+        Assert.assertEquals(basicPurchase.cost, storedPurchase.purchase.cost, 0.0)
+        Assert.assertEquals(basicPurchase.tip, storedPurchase.purchase.tip, 0.0)
+        Assert.assertEquals(basicPurchase.total, storedPurchase.purchase.total, 0.0)
+        Assert.assertEquals(basicPurchase.date, storedPurchase.purchase.date)
+        Assert.assertEquals(basicPurchase.seller, storedPurchase.purchase.seller)
+        Assert.assertEquals(basicPurchase.event, storedPurchase.purchase.event)
 
         Assert.assertNotNull(storedPurchase.event)
-        Assert.assertEquals(testEvent.name, storedPurchase.event!!.name)
-        Assert.assertEquals(testEvent.start, storedPurchase.event!!.start)
-        Assert.assertEquals(testEvent.end, storedPurchase.event!!.end)
+        Assert.assertEquals(basicEvent.name, storedPurchase.event!!.name)
+        Assert.assertEquals(basicEvent.start, storedPurchase.event!!.start)
+        Assert.assertEquals(basicEvent.end, storedPurchase.event!!.end)
+        basicPurchase.event = null
     }
 
     @Test
     fun test_insert_tag() {
-        testPurchase.seller = maxixeDatabase.contactDao().insert(testContact)
-        val purchId = maxixeDatabase.purchaseDao().insert(testPurchase)
-        val tagId = maxixeDatabase.tagDao().insert(testTag)
+        val purchaseId = maxixeDatabase.purchaseDao().insert(basicPurchase)
+        val tagId = maxixeDatabase.tagDao().insert(basicTag)
 
-        maxixeDatabase.purchaseDao().addTags(PurchaseTag(purchId, tagId))
+        maxixeDatabase.purchaseDao().addTags(PurchaseTag(purchaseId, tagId))
 
-        val storedPurchase = maxixeDatabase.purchaseDao().select(purchId)
+        val storedPurchase = maxixeDatabase.purchaseDao().select(purchaseId)
 
-        Assert.assertEquals(purchId, storedPurchase.purchase.id)
-        Assert.assertEquals(testPurchase.desc, storedPurchase.purchase.desc)
-        Assert.assertEquals(testPurchase.cost, storedPurchase.purchase.cost, 0.0)
-        Assert.assertEquals(testPurchase.tip, storedPurchase.purchase.tip, 0.0)
-        Assert.assertEquals(testPurchase.total, storedPurchase.purchase.total, 0.0)
-        Assert.assertEquals(testPurchase.date, storedPurchase.purchase.date)
-        Assert.assertEquals(testPurchase.seller, storedPurchase.purchase.seller)
-        Assert.assertEquals(testPurchase.event, storedPurchase.purchase.event)
-
-        Assert.assertEquals(testContact.name, storedPurchase.seller.name)
-        Assert.assertEquals(testContact.desc, storedPurchase.seller.desc)
-        Assert.assertEquals(testContact.pronouns, storedPurchase.seller.pronouns)
-        Assert.assertEquals(testContact.socials, storedPurchase.seller.socials)
-        Assert.assertEquals(testContact.isUser, storedPurchase.seller.isUser)
+        Assert.assertEquals(purchaseId, storedPurchase.purchase.id)
+        Assert.assertEquals(basicPurchase.desc, storedPurchase.purchase.desc)
+        Assert.assertEquals(basicPurchase.cost, storedPurchase.purchase.cost, 0.0)
+        Assert.assertEquals(basicPurchase.tip, storedPurchase.purchase.tip, 0.0)
+        Assert.assertEquals(basicPurchase.total, storedPurchase.purchase.total, 0.0)
+        Assert.assertEquals(basicPurchase.date, storedPurchase.purchase.date)
+        Assert.assertEquals(basicPurchase.seller, storedPurchase.purchase.seller)
+        Assert.assertEquals(basicPurchase.event, storedPurchase.purchase.event)
 
         Assert.assertEquals(1, storedPurchase.tags.size)
-        Assert.assertEquals(testTag.name, storedPurchase.tags[0].name)
-        Assert.assertEquals(testTag.type, storedPurchase.tags[0].type)
+        Assert.assertEquals(basicTag.name, storedPurchase.tags[0].name)
+        Assert.assertEquals(basicTag.type, storedPurchase.tags[0].type)
     }
 
     @Test
     fun test_selectAll(){
-        testPurchase.seller = maxixeDatabase.contactDao().insert(testContact)
-        val purchId = maxixeDatabase.purchaseDao().insert(testPurchase)
+        purchaseWithSeller.purchase.seller = maxixeDatabase.contactDao().insert(purchaseWithSeller.seller!!)
+        val purchId = maxixeDatabase.purchaseDao().insert(purchaseWithSeller.purchase)
 
         val storedPurchases = maxixeDatabase.purchaseDao().selectAll()
         Assert.assertEquals(purchId, storedPurchases[0].purchase.id)
-        Assert.assertEquals(testPurchase.desc, storedPurchases[0].purchase.desc)
-        Assert.assertEquals(testPurchase.cost, storedPurchases[0].purchase.cost, 0.0)
-        Assert.assertEquals(testPurchase.tip, storedPurchases[0].purchase.tip, 0.0)
-        Assert.assertEquals(testPurchase.total, storedPurchases[0].purchase.total, 0.0)
-        Assert.assertEquals(testPurchase.date, storedPurchases[0].purchase.date)
-        Assert.assertEquals(testPurchase.seller, storedPurchases[0].purchase.seller)
-        Assert.assertEquals(testPurchase.event, storedPurchases[0].purchase.event)
-        Assert.assertEquals(testContact.name, storedPurchases[0].seller.name)
-        Assert.assertEquals(testContact.desc, storedPurchases[0].seller.desc)
-        Assert.assertEquals(testContact.pronouns, storedPurchases[0].seller.pronouns)
-        Assert.assertEquals(testContact.socials, storedPurchases[0].seller.socials)
-        Assert.assertEquals(testContact.isUser, storedPurchases[0].seller.isUser)
+        Assert.assertEquals(purchaseWithSeller.purchase.desc, storedPurchases[0].purchase.desc)
+        Assert.assertEquals(purchaseWithSeller.purchase.cost, storedPurchases[0].purchase.cost, 0.0)
+        Assert.assertEquals(purchaseWithSeller.purchase.tip, storedPurchases[0].purchase.tip, 0.0)
+        Assert.assertEquals(purchaseWithSeller.purchase.total, storedPurchases[0].purchase.total, 0.0)
+        Assert.assertEquals(purchaseWithSeller.purchase.date, storedPurchases[0].purchase.date)
+        Assert.assertEquals(purchaseWithSeller.purchase.seller, storedPurchases[0].purchase.seller)
+        Assert.assertEquals(purchaseWithSeller.purchase.event, storedPurchases[0].purchase.event)
+        Assert.assertEquals(purchaseWithSeller.seller!!.name, storedPurchases[0].seller!!.name)
+        Assert.assertEquals(purchaseWithSeller.seller!!.desc, storedPurchases[0].seller!!.desc)
+        Assert.assertEquals(purchaseWithSeller.seller!!.pronouns, storedPurchases[0].seller!!.pronouns)
+        Assert.assertEquals(purchaseWithSeller.seller!!.socials, storedPurchases[0].seller!!.socials)
+        Assert.assertEquals(purchaseWithSeller.seller!!.isUser, storedPurchases[0].seller!!.isUser)
+        purchaseWithSeller.purchase.seller = 0
     }
 
     @Test
     fun test_selectAllByCharacter() {
-        testPurchase.seller = maxixeDatabase.contactDao().insert(testContact)
-        val purchId = maxixeDatabase.purchaseDao().insert(testPurchase)
-        val charId = maxixeDatabase.characterDao().insert(testCharacter)
+        basicPurchase.event = null
+        val purchId = maxixeDatabase.purchaseDao().insert(basicPurchase)
+        val charId = maxixeDatabase.characterDao().insert(basicCharacter)
 
         maxixeDatabase.purchaseDao().addCharacters(PurchaseCharacter(purchId, charId))
 
@@ -189,57 +160,57 @@ class PurchaseTests : DatabaseTest() {
 
         Assert.assertEquals( 1, storedPurchases.size)
         Assert.assertEquals(purchId, storedPurchases[0].id)
-        Assert.assertEquals(testPurchase.desc, storedPurchases[0].desc)
-        Assert.assertEquals(testPurchase.cost, storedPurchases[0].cost, 0.0)
-        Assert.assertEquals(testPurchase.tip, storedPurchases[0].tip, 0.0)
-        Assert.assertEquals(testPurchase.total, storedPurchases[0].total, 0.0)
-        Assert.assertEquals(testPurchase.date, storedPurchases[0].date)
-        Assert.assertEquals(testPurchase.seller, storedPurchases[0].seller)
-        Assert.assertEquals(testPurchase.event, storedPurchases[0].event)
+        Assert.assertEquals(basicPurchase.desc, storedPurchases[0].desc)
+        Assert.assertEquals(basicPurchase.cost, storedPurchases[0].cost, 0.0)
+        Assert.assertEquals(basicPurchase.tip, storedPurchases[0].tip, 0.0)
+        Assert.assertEquals(basicPurchase.total, storedPurchases[0].total, 0.0)
+        Assert.assertEquals(basicPurchase.date, storedPurchases[0].date)
+        Assert.assertEquals(basicPurchase.seller, storedPurchases[0].seller)
+        Assert.assertEquals(basicPurchase.event, storedPurchases[0].event)
     }
 
     @Test
     fun test_selectAllByEvent() {
-        testPurchase.seller = maxixeDatabase.contactDao().insert(testContact)
-        testPurchase.event = maxixeDatabase.eventDao().insert(testEvent)
-        val purchId = maxixeDatabase.purchaseDao().insert(testPurchase)
+        basicPurchase.event = maxixeDatabase.eventDao().insert(basicEvent)
+        val purchId = maxixeDatabase.purchaseDao().insert(basicPurchase)
 
-        val storedPurchases = maxixeDatabase.purchaseDao().selectAllByEvent(testPurchase.event!!)
+        val storedPurchases = maxixeDatabase.purchaseDao().selectAllByEvent(basicPurchase.event!!)
 
         Assert.assertEquals( 1, storedPurchases.size)
         Assert.assertEquals(purchId, storedPurchases[0].id)
-        Assert.assertEquals(testPurchase.desc, storedPurchases[0].desc)
-        Assert.assertEquals(testPurchase.cost, storedPurchases[0].cost, 0.0)
-        Assert.assertEquals(testPurchase.tip, storedPurchases[0].tip, 0.0)
-        Assert.assertEquals(testPurchase.total, storedPurchases[0].total, 0.0)
-        Assert.assertEquals(testPurchase.date, storedPurchases[0].date)
-        Assert.assertEquals(testPurchase.seller, storedPurchases[0].seller)
-        Assert.assertEquals(testPurchase.event, storedPurchases[0].event)
+        Assert.assertEquals(basicPurchase.desc, storedPurchases[0].desc)
+        Assert.assertEquals(basicPurchase.cost, storedPurchases[0].cost, 0.0)
+        Assert.assertEquals(basicPurchase.tip, storedPurchases[0].tip, 0.0)
+        Assert.assertEquals(basicPurchase.total, storedPurchases[0].total, 0.0)
+        Assert.assertEquals(basicPurchase.date, storedPurchases[0].date)
+        Assert.assertEquals(basicPurchase.seller, storedPurchases[0].seller)
+        Assert.assertEquals(basicPurchase.event, storedPurchases[0].event)
+        basicPurchase.event = null
     }
 
     @Test
     fun test_selectAllBySeller() {
-        testPurchase.seller = maxixeDatabase.contactDao().insert(testContact)
-        val purchId = maxixeDatabase.purchaseDao().insert(testPurchase)
+        purchaseWithSeller.purchase.seller = maxixeDatabase.contactDao().insert(purchaseWithSeller.seller!!)
+        val purchId = maxixeDatabase.purchaseDao().insert(purchaseWithSeller.purchase)
 
-        val storedPurchases = maxixeDatabase.purchaseDao().selectAllBySeller(testPurchase.seller)
+        val storedPurchases = maxixeDatabase.purchaseDao().selectAllBySeller(purchaseWithSeller.purchase.seller!!)
 
         Assert.assertEquals( 1, storedPurchases.size)
         Assert.assertEquals(purchId, storedPurchases[0].id)
-        Assert.assertEquals(testPurchase.desc, storedPurchases[0].desc)
-        Assert.assertEquals(testPurchase.cost, storedPurchases[0].cost, 0.0)
-        Assert.assertEquals(testPurchase.tip, storedPurchases[0].tip, 0.0)
-        Assert.assertEquals(testPurchase.total, storedPurchases[0].total, 0.0)
-        Assert.assertEquals(testPurchase.date, storedPurchases[0].date)
-        Assert.assertEquals(testPurchase.seller, storedPurchases[0].seller)
-        Assert.assertEquals(testPurchase.event, storedPurchases[0].event)
+        Assert.assertEquals(purchaseWithSeller.purchase.desc, storedPurchases[0].desc)
+        Assert.assertEquals(purchaseWithSeller.purchase.cost, storedPurchases[0].cost, 0.0)
+        Assert.assertEquals(purchaseWithSeller.purchase.tip, storedPurchases[0].tip, 0.0)
+        Assert.assertEquals(purchaseWithSeller.purchase.total, storedPurchases[0].total, 0.0)
+        Assert.assertEquals(purchaseWithSeller.purchase.date, storedPurchases[0].date)
+        Assert.assertEquals(purchaseWithSeller.purchase.seller, storedPurchases[0].seller)
+        Assert.assertEquals(purchaseWithSeller.purchase.event, storedPurchases[0].event)
+        purchaseWithSeller.purchase.seller = 0
     }
 
     @Test
     fun test_selectAllByTag() {
-        testPurchase.seller = maxixeDatabase.contactDao().insert(testContact)
-        val purchId = maxixeDatabase.purchaseDao().insert(testPurchase)
-        val tagId = maxixeDatabase.tagDao().insert(testTag)
+        val purchId = maxixeDatabase.purchaseDao().insert(basicPurchase)
+        val tagId = maxixeDatabase.tagDao().insert(basicTag)
 
         maxixeDatabase.purchaseDao().addTags(PurchaseTag(purchId, tagId))
 
@@ -247,13 +218,13 @@ class PurchaseTests : DatabaseTest() {
 
         Assert.assertEquals( 1, storedPurchases.size)
         Assert.assertEquals(purchId, storedPurchases[0].id)
-        Assert.assertEquals(testPurchase.desc, storedPurchases[0].desc)
-        Assert.assertEquals(testPurchase.cost, storedPurchases[0].cost, 0.0)
-        Assert.assertEquals(testPurchase.tip, storedPurchases[0].tip, 0.0)
-        Assert.assertEquals(testPurchase.total, storedPurchases[0].total, 0.0)
-        Assert.assertEquals(testPurchase.date, storedPurchases[0].date)
-        Assert.assertEquals(testPurchase.seller, storedPurchases[0].seller)
-        Assert.assertEquals(testPurchase.event, storedPurchases[0].event)
+        Assert.assertEquals(basicPurchase.desc, storedPurchases[0].desc)
+        Assert.assertEquals(basicPurchase.cost, storedPurchases[0].cost, 0.0)
+        Assert.assertEquals(basicPurchase.tip, storedPurchases[0].tip, 0.0)
+        Assert.assertEquals(basicPurchase.total, storedPurchases[0].total, 0.0)
+        Assert.assertEquals(basicPurchase.date, storedPurchases[0].date)
+        Assert.assertEquals(basicPurchase.seller, storedPurchases[0].seller)
+        Assert.assertEquals(basicPurchase.event, storedPurchases[0].event)
     }
 
 }

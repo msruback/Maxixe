@@ -2,35 +2,22 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="ActivityPreview">
-        <State />
-      </entry>
       <entry key="DatabaseTestSuite">
         <State />
       </entry>
-      <entry key="NavDrawer">
+      <entry key="LightModePreview">
         <State />
       </entry>
-      <entry key="Preview">
-        <State>
-          <runningDeviceTargetSelectedWithDropDown>
-            <Target>
-              <type value="RUNNING_DEVICE_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="SERIAL_NUMBER" />
-                  <value value="13131FDD4000WU" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </runningDeviceTargetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-03-04T23:36:01.074783090Z" />
-        </State>
+      <entry key="NightModePreview">
+        <State />
+      </entry>
+      <entry key="PurchaseListScreen">
+        <State />
       </entry>
       <entry key="app">
         <State />
       </entry>
-      <entry key="test_open_drawer()">
+      <entry key="test_display_purchases_stored()">
         <State />
       </entry>
     </value>

@@ -4,17 +4,19 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.FabPosition
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.msruback.maxixe.R
-import com.msruback.maxixe.database.queries.PurchaseWithSeller
-import com.msruback.maxixe.ui.MaxixeScreen
+import com.msruback.maxixe.database.queries.EverythingPurchase
 import com.msruback.maxixe.ui.composables.appbar.EditActionButton
+import com.msruback.maxixe.ui.composables.appbar.MaxixeScaffold
 import com.msruback.maxixe.ui.composables.appbar.MenuButton
-import com.msruback.maxixe.ui.composables.briefPurchase
+import com.msruback.maxixe.database.exampledata.detailedPurchase
 import com.msruback.maxixe.ui.composables.screens.Screen
 import com.msruback.maxixe.ui.composables.screens.ScreenInfo
+import com.msruback.maxixe.ui.ui.theme.MaxixeTheme
 
 @Composable
 fun PurchaseScreen(){
@@ -25,23 +27,41 @@ fun PurchaseScreen(){
 }
 
 @Composable
-fun PurchaseDetail(purchase: PurchaseWithSeller){
-
+fun PurchaseDetail(purchase: EverythingPurchase){
+    LazyColumn{
+        item {
+            Text(text = purchase.purchase.desc)
+        }
+    }
 }
 
 @Composable
 @Preview
 private fun LightModePreview(){
-    MaxixeScreen {
-        PurchaseDetail(briefPurchase)
+    val screenBarInfo = PurchaseScreenInfo.getInfo({}){}
+    MaxixeTheme {
+        MaxixeScaffold(
+            screenBarInfo.hasFab,
+            screenBarInfo.fabPosition,
+            { EditActionButton(""){} },
+            screenBarInfo.buttons) {
+            PurchaseDetail(detailedPurchase)
+        }
     }
 }
 
 @Composable
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, device = "id:pixel_5")
 private fun NightModePreview(){
-    MaxixeScreen {
-        PurchaseDetail(briefPurchase)
+    val screenBarInfo = PurchaseScreenInfo.getInfo({}){}
+    MaxixeTheme {
+        MaxixeScaffold(
+            screenBarInfo.hasFab,
+            screenBarInfo.fabPosition,
+            { EditActionButton(""){} },
+            screenBarInfo.buttons) {
+            PurchaseDetail(detailedPurchase)
+        }
     }
 }
 

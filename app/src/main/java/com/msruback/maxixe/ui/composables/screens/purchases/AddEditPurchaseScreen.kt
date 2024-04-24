@@ -9,11 +9,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.msruback.maxixe.R
-import com.msruback.maxixe.ui.MaxixeScreen
 import com.msruback.maxixe.ui.composables.appbar.DoneActionButton
+import com.msruback.maxixe.ui.composables.appbar.MaxixeScaffold
 import com.msruback.maxixe.ui.composables.appbar.MenuButton
 import com.msruback.maxixe.ui.composables.screens.Screen
 import com.msruback.maxixe.ui.composables.screens.ScreenInfo
+import com.msruback.maxixe.ui.ui.theme.MaxixeTheme
 import com.msruback.maxixe.viewmodels.PurchasesViewModel
 
 @Composable
@@ -26,19 +27,30 @@ fun AddEditPurchaseScreen(){
 @Composable
 @Preview
 private fun LightModePreview(){
-    MaxixeScreen {
-        AddEditPurchaseScreen()
+    val screenBarInfo = AddEditPurchaseScreenInfo.getInfo({}){}
+    MaxixeTheme {
+        MaxixeScaffold(
+            screenBarInfo.hasFab,
+            screenBarInfo.fabPosition,
+            { DoneActionButton(""){} },
+            screenBarInfo.buttons) {
+        }
     }
 }
 
 @Composable
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun NightModePreview(){
-    MaxixeScreen {
-        AddEditPurchaseScreen()
+    val screenBarInfo = AddEditPurchaseScreenInfo.getInfo({}){}
+    MaxixeTheme {
+        MaxixeScaffold(
+            screenBarInfo.hasFab,
+            screenBarInfo.fabPosition,
+            { DoneActionButton(""){} },
+            screenBarInfo.buttons) {
+        }
     }
 }
-
 
 val AddEditPurchaseScreenInfo = object : Screen(){
     override fun routeMatch(route: String): Boolean = (route == "purchase/add" || route.contains("purchase/edit/\\d"))

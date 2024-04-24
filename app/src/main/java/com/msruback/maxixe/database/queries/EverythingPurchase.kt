@@ -11,13 +11,13 @@ import com.msruback.maxixe.database.entities.PurchaseCharacter
 import com.msruback.maxixe.database.entities.PurchaseTag
 import com.msruback.maxixe.database.entities.Tag
 
-data class PurchaseWithEverything(
+data class EverythingPurchase(
     @Embedded val purchase: Purchase,
     @Relation(
         entity = Contact::class,
         parentColumn = "Seller",
         entityColumn = "Id"
-    ) val seller: Contact,
+    ) val seller: Contact?,
     @Relation(
         entity = Character::class,
         parentColumn = "Id",
