@@ -17,7 +17,7 @@ data class Character(
     @ColumnInfo("Icon") var icon: String,
     @ColumnInfo("Name") var name: String,
     @ColumnInfo("Pronouns") var pronouns: String,
-    @ColumnInfo("ShortDesc") var shortDesc: String,
+    @ColumnInfo("Byline") var byline: String,
     @ColumnInfo("Desc") var desc: String,
     @ColumnInfo("Link") var link: String,
     @ColumnInfo("Owner", index = true) var owner: Long? = null,

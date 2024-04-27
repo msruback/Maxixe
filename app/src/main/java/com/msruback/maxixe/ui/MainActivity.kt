@@ -19,6 +19,8 @@ import androidx.navigation.navArgument
 import com.msruback.maxixe.ui.composables.appbar.MaxixeAppBar
 import com.msruback.maxixe.ui.composables.MaxixeBottomDrawer
 import com.msruback.maxixe.ui.composables.screens.characters.CharactersListScreen
+import com.msruback.maxixe.ui.composables.screens.contacts.ContactsListScreen
+import com.msruback.maxixe.ui.composables.screens.events.EventsListScreen
 import com.msruback.maxixe.ui.composables.screens.purchases.AddEditPurchaseScreen
 import com.msruback.maxixe.ui.composables.screens.purchases.PurchaseScreen
 import com.msruback.maxixe.ui.composables.screens.purchases.PurchasesListScreen
@@ -47,6 +49,16 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("characters"){
                         CharactersListScreen{characterId -> navController.navigate("character/$characterId") }
+                    }
+                    composable("contacts"){
+                        ContactsListScreen {
+                            contactId -> navController.navigate("contact/$contactId")
+                        }
+                    }
+                    composable("events"){
+                        EventsListScreen {
+                            eventId -> navController.navigate("event/$eventId")
+                        }
                     }
                 }
             }

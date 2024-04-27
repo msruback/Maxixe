@@ -19,6 +19,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.msruback.maxixe.ui.composables.screens.Screen
 import com.msruback.maxixe.ui.composables.screens.ScreenInfo
+import com.msruback.maxixe.ui.composables.screens.characters.CharactersListScreenInfo
 import com.msruback.maxixe.ui.composables.screens.purchases.AddEditPurchaseScreenInfo
 import com.msruback.maxixe.ui.composables.screens.purchases.PurchasesListScreenInfo
 import com.msruback.maxixe.ui.composables.screens.purchases.PurchaseScreenInfo
@@ -132,7 +133,8 @@ private fun getScreenBarInfo(
     val screens: List<Screen> = listOf(
         PurchasesListScreenInfo,
         PurchaseScreenInfo,
-        AddEditPurchaseScreenInfo
+        AddEditPurchaseScreenInfo,
+        CharactersListScreenInfo
     )
     if (currentDest != null) {
         screens.forEach { screen ->
