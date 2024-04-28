@@ -5,19 +5,19 @@
       <entry key="DatabaseTestSuite">
         <State />
       </entry>
-      <entry key="LightModePreview">
-        <State />
-      </entry>
-      <entry key="NightModePreview">
-        <State />
-      </entry>
       <entry key="PurchaseListScreen">
+        <State />
+      </entry>
+      <entry key="UITestSuite">
         <State />
       </entry>
       <entry key="app">
         <State />
       </entry>
       <entry key="test_display_purchases_stored()">
+        <State />
+      </entry>
+      <entry key="test_open_drawer()">
         <State />
       </entry>
     </value>

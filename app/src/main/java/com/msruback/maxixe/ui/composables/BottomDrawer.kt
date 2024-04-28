@@ -32,6 +32,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.msruback.maxixe.R
+import com.msruback.maxixe.ui.composables.appbar.MaxixeScaffold
+import com.msruback.maxixe.ui.composables.appbar.MenuButton
 import com.msruback.maxixe.ui.ui.theme.MaxixeTheme
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -121,6 +123,23 @@ private fun NavItem(route: String?, dest: String, name: String, icon:Int, onClic
 @Composable
 @Preview
 private fun Preview() {
+    MaxixeTheme {
+        val navController = rememberNavController()
+        MaxixeBottomDrawer(rememberBottomDrawerState(BottomDrawerValue.Closed), {}, navController) {
+            MaxixeScaffold(
+                false,
+                buttons = {MenuButton {
+                }},
+                content = {}
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+@Preview
+private fun OpenPreview() {
     MaxixeTheme {
         val navController = rememberNavController()
         MaxixeBottomDrawer(rememberBottomDrawerState(BottomDrawerValue.Open), {}, navController) {

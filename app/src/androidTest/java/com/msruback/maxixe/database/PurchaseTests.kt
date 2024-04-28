@@ -47,7 +47,6 @@ class PurchaseTests : DatabaseTest() {
         Assert.assertEquals(purchaseWithSeller.seller!!.name, storedPurchase.seller!!.name)
         Assert.assertEquals(purchaseWithSeller.seller!!.desc, storedPurchase.seller!!.desc)
         Assert.assertEquals(purchaseWithSeller.seller!!.pronouns, storedPurchase.seller!!.pronouns)
-        Assert.assertEquals(purchaseWithSeller.seller!!.socials, storedPurchase.seller!!.socials)
         Assert.assertEquals(purchaseWithSeller.seller!!.isUser, storedPurchase.seller!!.isUser)
         purchaseWithSeller.purchase.seller = 0
     }
@@ -143,7 +142,6 @@ class PurchaseTests : DatabaseTest() {
         Assert.assertEquals(purchaseWithSeller.seller!!.name, storedPurchases[0].seller!!.name)
         Assert.assertEquals(purchaseWithSeller.seller!!.desc, storedPurchases[0].seller!!.desc)
         Assert.assertEquals(purchaseWithSeller.seller!!.pronouns, storedPurchases[0].seller!!.pronouns)
-        Assert.assertEquals(purchaseWithSeller.seller!!.socials, storedPurchases[0].seller!!.socials)
         Assert.assertEquals(purchaseWithSeller.seller!!.isUser, storedPurchases[0].seller!!.isUser)
         purchaseWithSeller.purchase.seller = 0
     }

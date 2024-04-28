@@ -25,4 +25,10 @@
     <string name="edit_purchase">Edit Purchase</string>
     <string name="filter_purchases">Filter Purchases</string>
     <string name="save_purchase">Save Purchase</string>
+
+    <string name="tag_list">Tags</string>
+    <string name="add_tag">Add Tag</string>
+    <string name="edit_tag">Edit Tag</string>
+    <string name="filter_tags">Filter Tags</string>
+    <string name="save_tag">Save Tag</string>
 </resources>

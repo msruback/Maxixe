@@ -51,14 +51,18 @@ fun MaxixeAppBar(
             screenBarInfo.buttons,
             content
         )
+    }else{
+        MaxixeScaffold(hasFab = false, buttons = {MenuButton(toggleDrawer)}) {
+
+        }
     }
 }
 
 @Composable
 fun MaxixeScaffold(
     hasFab: Boolean,
-    fabPosition: FabPosition?,
-    fab: @Composable (() -> Unit)?,
+    fabPosition: FabPosition? = null,
+    fab: @Composable (() -> Unit)?= null,
     buttons: @Composable RowScope.() -> Unit,
     content: @Composable (PaddingValues) -> Unit
 ) {

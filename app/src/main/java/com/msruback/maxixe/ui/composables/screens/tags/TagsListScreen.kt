@@ -1,4 +1,4 @@
-package com.msruback.maxixe.ui.composables.screens.characters
+package com.msruback.maxixe.ui.composables.screens.tags
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
@@ -21,8 +21,8 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.msruback.maxixe.R
-import com.msruback.maxixe.database.entities.Character
-import com.msruback.maxixe.database.exampledata.basicCharacter
+import com.msruback.maxixe.database.entities.Tag
+import com.msruback.maxixe.database.exampledata.basicTag
 import com.msruback.maxixe.ui.composables.appbar.AddActionButton
 import com.msruback.maxixe.ui.composables.appbar.FilterButton
 import com.msruback.maxixe.ui.composables.appbar.MaxixeScaffold
@@ -33,19 +33,18 @@ import com.msruback.maxixe.ui.ui.theme.MaxixeTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-
 @Composable
-fun CharactersListScreen(navigateToDetail: (Long) -> Unit){
+fun TagsListScreen(navigateToDetail: (Long) -> Unit){
 
 }
 
 @Composable
-fun CharactersList(characters: LazyPagingItems<Character>, navigateToDetail: (Long) -> Unit){
+fun TagsList(tags: LazyPagingItems<Tag>, navigateToDetail: (Long) -> Unit){
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth(1f).testTag("characters-list")
+        modifier = Modifier.fillMaxWidth(1f).testTag("tags-list")
     ) {
-        items(characters.itemCount) { index ->
+        items(tags.itemCount) { index ->
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth(.9f)
@@ -53,8 +52,8 @@ fun CharactersList(characters: LazyPagingItems<Character>, navigateToDetail: (Lo
                 if (index == 0) {
                     Spacer(modifier = Modifier.height(15.dp))
                 }
-                CharacterItem(characters[index]!!, navigateToDetail)
-                if (index < characters.itemCount - 1) {
+                TagItem(tags[index]!!, navigateToDetail)
+                if (index < tags.itemCount - 1) {
                     HorizontalDivider(color = MaterialTheme.colorScheme.onBackground)
                 }
             }
@@ -65,21 +64,21 @@ fun CharactersList(characters: LazyPagingItems<Character>, navigateToDetail: (Lo
 @Composable
 @Preview
 private fun LightModePreview() {
-    val characters = MutableStateFlow(
+    val tags = MutableStateFlow(
         PagingData.from(listOf(
-            basicCharacter,
-            basicCharacter,
-            basicCharacter
-    ))).asStateFlow().collectAsLazyPagingItems()
-    val screenBarInfo = CharactersListScreenInfo.getInfo({}){}
+            basicTag,
+            basicTag,
+            basicTag
+        ))).asStateFlow().collectAsLazyPagingItems()
+    val screenBarInfo = TagsListScreenInfo.getInfo({}){}
     MaxixeTheme {
         MaxixeScaffold(
             screenBarInfo.hasFab,
             screenBarInfo.fabPosition,
             { AddActionButton(""){} },
             screenBarInfo.buttons) {
-            CharactersList(
-                characters = characters
+            TagsList(
+                tags = tags
             ) {}
         }
     }
@@ -88,42 +87,42 @@ private fun LightModePreview() {
 @Composable
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun NightModePreview() {
-    val characters = MutableStateFlow(
+    val tags = MutableStateFlow(
         PagingData.from(listOf(
-            basicCharacter,
-            basicCharacter,
-            basicCharacter
+            basicTag,
+            basicTag,
+            basicTag
         ))).asStateFlow().collectAsLazyPagingItems()
-    val screenBarInfo = CharactersListScreenInfo.getInfo({}){}
+    val screenBarInfo = TagsListScreenInfo.getInfo({}){}
     MaxixeTheme {
         MaxixeScaffold(
             screenBarInfo.hasFab,
             screenBarInfo.fabPosition,
             { AddActionButton(""){} },
             screenBarInfo.buttons) {
-            CharactersList(
-                characters = characters
+            TagsList(
+                tags = tags
             ) {}
         }
     }
 }
 
 
-val CharactersListScreenInfo = object : Screen() {
-    override fun routeMatch(route: String): Boolean = (route == "characters")
+val TagsListScreenInfo = object : Screen() {
+    override fun routeMatch(route: String): Boolean = (route == "tags")
     override fun getInfo(navigate: (String) -> Unit, toggleDrawer: () -> Unit): ScreenInfo {
         return object : ScreenInfo() {
             override val hasFab: Boolean = true
             override val fabPosition: FabPosition = FabPosition.Center
             override val fab: @Composable (() -> Unit) = {
-                AddActionButton(stringResource(R.string.add_character)) {
-                    navigate("character/add")
+                AddActionButton(stringResource(R.string.add_tag)) {
+                    navigate("tag/add")
                 }
             }
             override val buttons: @Composable (RowScope.() -> Unit) = {
                 MenuButton(toggleDrawer)
                 Spacer(Modifier.weight(1f, true))
-                FilterButton(stringResource(R.string.filter_characters)) {}
+                FilterButton(stringResource(R.string.filter_tags)) {}
             }
         }
     }

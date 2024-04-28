@@ -14,7 +14,6 @@ import com.msruback.maxixe.database.MaxixeDatabase
 import com.msruback.maxixe.database.entities.Purchase
 import com.msruback.maxixe.database.queries.PurchaseSellerEvent
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -50,8 +49,8 @@ class PurchasesViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun insertPurchase(purchase: Purchase): Job {
-        return viewModelScope.launch(Dispatchers.IO){
+    fun insertPurchase(purchase: Purchase){
+        viewModelScope.launch(Dispatchers.IO){
             database.purchaseDao().insert(purchase)
         }
     }

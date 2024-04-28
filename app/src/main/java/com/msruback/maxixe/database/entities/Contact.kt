@@ -9,6 +9,5 @@ data class Contact(
     @ColumnInfo("Pronouns") var pronouns: String,
     @ColumnInfo("Byline") var byline: String,
     @ColumnInfo("Desc") var desc: String,
-    @Embedded var socials: Socials,
     @ColumnInfo("IsUser") var isUser: Boolean = false
 )

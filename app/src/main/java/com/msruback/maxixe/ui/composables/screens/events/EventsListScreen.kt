@@ -42,7 +42,7 @@ fun EventsListScreen(navigateToDetail: (Long) -> Unit){
 fun EventsList(events: LazyPagingItems<Event>, navigateToDetail: (Long) -> Unit){
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth(1f).testTag("contacts-list")
+        modifier = Modifier.fillMaxWidth(1f).testTag("events-list")
     ) {
         items(events.itemCount) { index ->
             Column(

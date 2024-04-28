@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -28,26 +29,32 @@ fun EventItem(event: Event, navigateToDetail: (Long) -> Unit){
         .fillMaxWidth()
         .padding(10.dp, 5.dp, 0.dp, 5.dp)
         .clickable { navigateToDetail(event.id) }){
-        Text(text = event.name, color = MaterialTheme.colorScheme.onBackground, fontSize = 20.sp)
-        Column(verticalArrangement = Arrangement.Center){
+        Column (verticalArrangement = Arrangement.Center){
+            Text(text = event.name, color = MaterialTheme.colorScheme.onBackground, fontSize = 20.sp)
+            Text(text = event.byline, color = MaterialTheme.colorScheme.onBackground, fontSize = 15.sp)
+        }
+        Column(verticalArrangement = Arrangement.Bottom, modifier = Modifier.height(50.dp).padding(10.dp,0.dp,0.dp,0.dp)){
             // need check if start date & end date are same, show hour alt layout
-            val dateFormat = DateTimeFormatter.ofPattern("MM/dd/yy")
-            val startDate = dateFormat.format(
-                LocalDateTime.ofEpochSecond(
-                    event.start,
-                    0,
-                    ZoneOffset.UTC
+            Row{
+                val dateFormat = DateTimeFormatter.ofPattern("MM/dd")
+                val startDate = dateFormat.format(
+                    LocalDateTime.ofEpochSecond(
+                        event.start,
+                        0,
+                        ZoneOffset.UTC
+                    )
                 )
-            )
-            val endDate = dateFormat.format(
-                LocalDateTime.ofEpochSecond(
-                    event.end,
-                    0,
-                    ZoneOffset.UTC
+                val endDate = dateFormat.format(
+                    LocalDateTime.ofEpochSecond(
+                        event.end,
+                        0,
+                        ZoneOffset.UTC
+                    )
                 )
-            )
-            Text(text = startDate, color = MaterialTheme.colorScheme.onBackground, fontSize = 15.sp)
-            Text(text = endDate, color = MaterialTheme.colorScheme.onBackground, fontSize = 15.sp)
+                Text(text = startDate, color = MaterialTheme.colorScheme.onBackground, fontSize = 15.sp)
+                Text(text = " - ", color = MaterialTheme.colorScheme.onBackground, fontSize = 15.sp)
+                Text(text = endDate, color = MaterialTheme.colorScheme.onBackground, fontSize = 15.sp)
+            }
         }
     }
 }

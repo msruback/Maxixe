@@ -11,7 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import org.junit.Rule
 import org.junit.Test
 
-class NavDrawer {
+class NavDrawerTests {
     @get:Rule
     val composeTestRule = createComposeRule()
 

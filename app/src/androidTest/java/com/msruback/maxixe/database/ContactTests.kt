@@ -18,7 +18,6 @@ class ContactTests : DatabaseTest() {
         Assert.assertEquals(basicContact.name, storedContact.name)
         Assert.assertEquals(basicContact.desc, storedContact.desc)
         Assert.assertEquals(basicContact.pronouns, storedContact.pronouns)
-        Assert.assertEquals(basicContact.socials, storedContact.socials)
         Assert.assertEquals(basicContact.isUser, storedContact.isUser)
     }
 
@@ -36,7 +35,6 @@ class ContactTests : DatabaseTest() {
         Assert.assertEquals(basicContact.name, storedContacts[0].name)
         Assert.assertEquals(basicContact.desc, storedContacts[0].desc)
         Assert.assertEquals(basicContact.pronouns, storedContacts[0].pronouns)
-        Assert.assertEquals(basicContact.socials, storedContacts[0].socials)
         Assert.assertEquals(basicContact.isUser, storedContacts[0].isUser)
     }
 }

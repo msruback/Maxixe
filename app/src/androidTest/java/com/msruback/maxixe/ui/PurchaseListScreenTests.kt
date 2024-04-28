@@ -24,7 +24,7 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
-class PurchaseListScreen {
+class PurchaseListScreenTests {
     @get:Rule
     val composeTestRule = createComposeRule()
 
@@ -59,7 +59,7 @@ class PurchaseListScreen {
     fun test_display_purchases_stored(){
         composeTestRule.setContent {
             val viewModel = viewModel<PurchasesViewModel>()
-            val insert = viewModel.insertPurchase(basicPurchase)
+            viewModel.insertPurchase(basicPurchase)
             PurchasesListScreen{}
         }
         val dateFormat = DateTimeFormatter.ofPattern("MM/dd/yy")

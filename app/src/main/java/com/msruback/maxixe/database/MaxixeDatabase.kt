@@ -9,7 +9,7 @@ import com.msruback.maxixe.database.entities.*
 
 @Database(
     entities = [Character::class, CharacterTag::class, Contact::class, ContactTag::class,
-        Event::class, EventTag::class, Purchase::class, PurchaseCharacter::class, PurchaseTag::class,
+        Event::class, SubEvent::class, EventTag::class, Purchase::class, PurchaseCharacter::class, PurchaseTag::class,
         Tag::class],
     version = 1,
     exportSchema = true
